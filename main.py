@@ -2,6 +2,23 @@ import xlsxwriter
 import requests
 import math
 import datetime
+#Version control stuff
+current_version = "0.0.2"
+
+github_repo_url = "https://github.com/Tryp0xd/BBEDG"
+try:
+    
+    response = requests.get(github_repo_url + "/releases/latest")
+    latest_version = response.url.split("/")[-1]
+
+    if current_version != latest_version:
+        update_message = f"[UPDATE REQUIRED] BBEDG has been updated from {current_version} to {latest_version}, please go to {github_repo_url} to update this program. You may ignore this message."
+        print(update_message)
+    else:
+        print("You are currently running the latest version of BBEDG!")
+except (requests.exceptions.RequestException, requests.exceptions.ConnectionError):
+    print("[ERROR] Failed to check versions, please ensure you have internet connection to see whether an update is available!")
+
 
 def fetchBazaarInfo() -> dict:
     r = requests.get("https://api.hypixel.net/skyblock/bazaar")
@@ -10,6 +27,9 @@ def fetchBazaarInfo() -> dict:
 
 def xlNotation(row, col):
     return xlsxwriter.utility.xl_rowcol_to_cell(row, col)
+
+
+
 
 
 # Cell filling shit
