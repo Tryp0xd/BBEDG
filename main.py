@@ -7,7 +7,7 @@ from tkinter import filedialog
 import re
 
 # Version control stuff
-current_version = "0.0.2"
+current_version = "0.0.3"
 
 github_repo_url = "https://github.com/Tryp0xd/BBEDG"
 try:
