@@ -492,7 +492,7 @@ item_row += len(relevantIDs)
 for n, vals in enumerate(miscPotPrice.items()):
     name, cost = vals
     ws2.write(item_row+n, item_col, name, fmt)
-    ws2.write(item_row+n, item_col+qty, 3, fmt)
+    ws2.write(item_row+n, item_col+qty, "A2*3", fmt)
     ws2.write(item_row+n, item_col+b_order, cost, fmt)
     ws2.write(item_row+n, item_col+i_buy, cost, fmt)
     ws2.write(item_row+n, item_col+b_order_x_qty, f"={xlNotation(item_row+n, item_col+qty)}*{xlNotation(item_row+n, item_col+b_order)}", fmt)
