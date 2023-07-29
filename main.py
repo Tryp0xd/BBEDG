@@ -2,12 +2,16 @@ import xlsxwriter
 import requests
 import math
 import datetime
-#Version control stuff
+import tkinter as tk
+from tkinter import filedialog
+import re
+
+# Version control stuff
 current_version = "0.0.2"
 
 github_repo_url = "https://github.com/Tryp0xd/BBEDG"
 try:
-    
+
     response = requests.get(github_repo_url + "/releases/latest")
     latest_version = response.url.split("/")[-1]
 
@@ -17,8 +21,18 @@ try:
     else:
         print("You are currently running the latest version of BBEDG!")
 except (requests.exceptions.RequestException, requests.exceptions.ConnectionError):
-    print("[ERROR] Failed to check versions, please ensure you have internet connection to see whether an update is available!")
+    print(
+        "[ERROR] Failed to check versions, please ensure you have internet connection to see whether an update is available!")
+#Save your file with name ... and in ...
+print("Save your file in... (A window should be open by any second now)")
+def prompt_save_path():
+    root = tk.Tk()
+    root.withdraw()
 
+    file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel Files", "*.xlsx"), ("All Files", "*.*")])
+
+    return file_path
+savepath = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel Files", "*.xlsx"), ("All Files", "*.*")])
 
 def fetchBazaarInfo() -> dict:
     r = requests.get("https://api.hypixel.net/skyblock/bazaar")
@@ -27,9 +41,6 @@ def fetchBazaarInfo() -> dict:
 
 def xlNotation(row, col):
     return xlsxwriter.utility.xl_rowcol_to_cell(row, col)
-
-
-
 
 
 # Cell filling shit
@@ -206,7 +217,7 @@ miscPotions = {"Wisp" : [0, 0, 1, 0, 0]}
 miscPotPrice = {}
 
 # Create a excel file and adds a worksheet.
-wb = xlsxwriter.Workbook('Splasher Spreadsheet.xlsx')
+wb = xlsxwriter.Workbook(savepath)
 ws = wb.add_worksheet('Brewing Guide')
 ws2 = wb.add_worksheet('Cost Summary')
 fmt = wb.add_format()
@@ -234,25 +245,28 @@ ws.set_column("F:F", 2)
 ws.set_column("G:G", 3)
 ws.set_column("H:H", 23)
 
-
-
 # Set style mode
-mode = input("What mode do you want the spreadsheet to be?\nLight mode - LM\nDark mode - DM\nOption : ").lower()
+mode = input("What mode do you want the spreadsheet to be?\nLight mode - LM\nDark mode - DM\nOther - o\nOption : ").lower()
 if mode == "lm":
     fmt.set_bg_color("#FFFFFF")
-    tb_options['font'] = {'color' : 'black',
-                          'size'  : 14}
-    tb_options['fill'] = {'color' : 'black'}
+    tb_options['font'] = {'color' : 'black','size'  : 14}
+    tb_options['fill'] = {'color' : 'white'}
 elif mode == "dm":
     fmt.set_bg_color("#000000")
     fmt.set_font_color("white")
-    tb_options['font'] = {'color' : 'white',
-                          'size'  : 14}
+    tb_options['font'] = {'color' : 'white','size': 14}
     tb_options['fill'] = {'color' : 'black'}
+elif mode == "o":
+    given = input("Backgroundcolor:\nHex Code - (#4C4C4C)\nOption : ").lower()
+    fmt.set_bg_color(given)
+    tb_options['fill'] = {'color': given}
+
+    given2 = input("Fontcolor:\nHex Code - (#000000)\nOption : ").lower()
+    fmt.set_font_color(given2)
+    tb_options['font'] = {'color' : given2,'size': 14}
 else:
     print("You chose none of the options, defaulting to regular excel mode (sorry not sorry for singing your eyeballs)")
-    tb_options['font'] = {'color' : 'black',
-                          'size'  : 14}
+    tb_options['font'] = {'color' : 'black','size'  : 14}
     tb_options['fill'] = {'color' : 'white'}
 
 fmt.set_num_format('#,##0')
@@ -268,6 +282,7 @@ match coffeeTypeChoice:
         coffeeType = "DECENT_COFFEE"
     case 3:
         coffeeType = "BLACK_COFFEE"
+
 
 for n, vals in enumerate(miscPotions.items()):
     name, brewMat = vals
@@ -478,7 +493,7 @@ item_row += len(relevantIDs)
 for n, vals in enumerate(miscPotPrice.items()):
     name, cost = vals
     ws2.write(item_row+n, item_col, name, fmt)
-    ws2.write(item_row+n, item_col+qty, "=A2*3", fmt)
+    ws2.write(item_row+n, item_col+qty, 3, fmt)
     ws2.write(item_row+n, item_col+b_order, cost, fmt)
     ws2.write(item_row+n, item_col+i_buy, cost, fmt)
     ws2.write(item_row+n, item_col+b_order_x_qty, f"={xlNotation(item_row+n, item_col+qty)}*{xlNotation(item_row+n, item_col+b_order)}", fmt)
