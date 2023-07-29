@@ -32,6 +32,11 @@ This is one way I recommend running the program, and the steps are as followed:
 
 You can discard the output or not include it at all, but output is somewhat necessary if the spreadsheet is not being generated properly or just in case you included some debug prints yourself.
 
+## Alternative Usage
+Alternatively, you can now download a compiled binary of BBEDG from the release page if
+you do not wish to install Python and do not have an IDE to bother editing the program!
+
+
 ## Contact me
 If any issues persist with the program, you can contact me via discord `trypo`
 Let me know what the issue is by providing me the traceback via DMs (feel free to remove any private information you may have in that traceback but replace the private parts with (PRIVATE))
