@@ -21,8 +21,7 @@ try:
     else:
         print("You are currently running the latest version of BBEDG!")
 except (requests.exceptions.RequestException, requests.exceptions.ConnectionError):
-    print(
-        "[ERROR] Failed to check versions, please ensure you have internet connection to see whether an update is available!")
+    print("[ERROR] Failed to check versions, please ensure you have internet connection to see whether an update is available!")
 #Save your file with name ... and in ...
 print("Save your file in... (A window should be open by any second now)")
 def prompt_save_path():
