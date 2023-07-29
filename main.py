@@ -24,14 +24,13 @@ except (requests.exceptions.RequestException, requests.exceptions.ConnectionErro
     print("[ERROR] Failed to check versions, please ensure you have internet connection to see whether an update is available!")
 #Save your file with name ... and in ...
 print("Save your file in... (A window should be open by any second now)")
-def prompt_save_path():
-    root = tk.Tk()
-    root.withdraw()
 
-    file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel Files", "*.xlsx"), ("All Files", "*.*")])
-
-    return file_path
 savepath = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel Files", "*.xlsx"), ("All Files", "*.*")])
+if savepath == '':
+    print("You have not chosen a path, or a name, your spreadsheet will be saved as 'Splasher Products.xlsx' in the currently working directory.")
+    savepath = "Splasher Products.xlsx"
+else:
+    print(f'Your file will be saved at : {savepath}')
 
 def fetchBazaarInfo() -> dict:
     r = requests.get("https://api.hypixel.net/skyblock/bazaar")
